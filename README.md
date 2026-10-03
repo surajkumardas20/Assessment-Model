@@ -1,37 +1,40 @@
-# Nutrition-AI-Business-Model
-A research-driven exploration of how AI can transform Nutrition Science and Business Analytics.
-# Nutrition AI Business Model
+# Assessment Model
 
-Welcome to **Nutrition AI Business Model**, a repository by [Suraj Kumar Das](https://github.com/surajkumardas20).
+Worked MySQL example for nutritional assessment: store a patient, compute BMI, and classify screening risk.
 
-## 📖 About the Project
-This project is a fusion of **Nutrition Science**, **Business Analytics**, and **Generative AI**.  
-The goal is to explore how artificial intelligence can:
-- Personalize nutrition plans
-- Enhance diet tracking with predictive analytics
-- Bridge science and business for scalable health solutions
-- Develop AI-driven models for nutrition startups
+This is not the business-model writeup. That repository is [Nutrition-AI-Business-Model](https://github.com/surajkumardas20/Nutrition-AI-Business-Model). The patient schema shared with the nutrition database is [Nutrition_AI](https://github.com/surajkumardas20/Nutrition_AI).
 
-## 🎯 Objectives
-- Build datasets around nutrition science and diet planning
-- Apply **Generative AI** to create dynamic dietary recommendations
-- Explore **agentic AI systems** for real-time decision-making
-- Test **business models** for scaling nutrition solutions
+## Risk bands
 
-## 🧩 Tech Stack
-- Python (Pandas, NumPy, Scikit-learn, PyTorch)
-- Business Analytics Tools (Power BI, Tableau)
-- AI/ML frameworks for generative and agentic models
-- Nutrition datasets & APIs
+BMI is weight (kg) / height (m)².
 
-## 🌱 Future Scope
-- Integration with wearable health tech (Fitbit, Apple Watch)
-- Real-time recommendation engines
-- AI-powered diet coaches
-- Scalable SaaS business models in health & nutrition
+| BMI | Band | Risk stored here |
+| --- | --- | --- |
+| under 18.5 | Underweight | High |
+| 18.5 to under 25 | Healthy | Low |
+| 25 to under 30 | Overweight | Moderate |
+| 30 and above | Obesity | High |
 
-## 🚀 Getting Started
-1. Clone the repository  
-   ```bash
-   git clone https://github.com/surajkumardas20/Nutrition-AI-Business-Model.git
+An earlier draft labeled a healthy BMI as Moderate and underweight as Low. That is reversed here.
 
+## Run
+
+Requires MySQL. The script creates the `assessment_model` database, so it does not touch `nutrition_ai`.
+
+```bash
+git clone https://github.com/surajkumardas20/Assessment-Model.git
+cd Assessment-Model
+mysql -u root -p < assessments.sql
+```
+
+Then:
+
+```sql
+USE assessment_model;
+SELECT first_name, last_name, bmi, risk_level FROM assessments_view;
+SELECT risk_level, COUNT(*) AS patients FROM assessments_view GROUP BY risk_level;
+```
+
+## License
+
+MIT
